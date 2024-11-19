@@ -1,8 +1,7 @@
-# API Customer
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
-# Create array of customers
+# Criação de array de clientes
 customers = []
 next_id = 1
 
@@ -16,8 +15,7 @@ class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         # Lista todos os clientes
         if self.path == "/clientes":
-            self._send_response(200, clientes)
-        # Retorna 404 para outras rotas GET não implementadas
+            self._send_response(200, customers)
         else:
             self._send_response(404, {"message": "Rota não encontrada."})
 
@@ -30,11 +28,11 @@ class RequestHandler(BaseHTTPRequestHandler):
             cliente_data = json.loads(body)
             cliente_data['id'] = next_id
             next_id += 1
-            clientes.append(cliente_data)
+            customers.append(cliente_data)
             self._send_response(201, cliente_data)
         else:
             self._send_response(404, {"message": "Rota não encontrada."})
-            
+
 # Inicialização do servidor
 def run():
     server_address = ('', 8000)
@@ -42,5 +40,6 @@ def run():
     print("API rodando em http://localhost:8000")
     httpd.serve_forever()
 
+# Correção da linha abaixo
 if __name__ == "__main__":
     run()
